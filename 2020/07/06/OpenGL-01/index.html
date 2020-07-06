@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="GthFrJ1ky-fYHVFt1Z7Siye3kLyqYKFgt3thV4UElM4" />
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="OM2eQqaHyF" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OpenGL," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="OpenGL中三角形的绘制，就类似于学习编程时的Hello world，是一个入门级的使用，重点在于理解图形是如何绘制的 在绘制之前，需要先介绍几个知识#一、知识补充 工具类主要有三个工具类  着色器管理类 GLTools函数 freeglut静态库  与之相对应的头文件如下所示  重要函数3个自定义函数+main函数   ChangeSize主要是用于改变窗口大小，需要在main中通过glut">
+<meta property="og:type" content="article">
+<meta property="og:title" content="案例 01、OpenGL入门--绘制三角形">
+<meta property="og:url" content="https://chenjialin1016.com/2020/07/06/OpenGL-01/index.html">
+<meta property="og:site_name" content="CJL&#39;s Blog">
+<meta property="og:description" content="OpenGL中三角形的绘制，就类似于学习编程时的Hello world，是一个入门级的使用，重点在于理解图形是如何绘制的 在绘制之前，需要先介绍几个知识#一、知识补充 工具类主要有三个工具类  着色器管理类 GLTools函数 freeglut静态库  与之相对应的头文件如下所示  重要函数3个自定义函数+main函数   ChangeSize主要是用于改变窗口大小，需要在main中通过glut">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-700134bfac5bc91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-b621f865162c7902.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-f95d8909915bf330.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-409ae569fe8044eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-1a0e8486376753c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-da7f89fd86a9aedd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-07-06T02:57:28.000Z">
+<meta property="article:modified_time" content="2020-07-06T03:14:35.040Z">
+<meta property="article:author" content="Style-月月">
+<meta property="article:tag" content="OpenGL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2251862-700134bfac5bc91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://chenjialin1016.com/2020/07/06/OpenGL-01/"/>
+
+
+
+
+
+  <title>案例 01、OpenGL入门--绘制三角形 | CJL's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4bef13e2843b15be60c50d33d23c9937";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CJL's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录学习中的点点滴滴</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chenjialin1016.com/2020/07/06/OpenGL-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Style-月月">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CJL's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">案例 01、OpenGL入门--绘制三角形</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-06T10:57:28+08:00">
+                2020-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OpenGL/" itemprop="url" rel="index">
+                    <span itemprop="name">OpenGL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  968
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> OpenGL中三角形的绘制，就类似于学习编程时的Hello world，是一个入门级的使用，重点在于理解图形是如何绘制的</p>
+<p>在绘制之前，需要先介绍几个知识<br>#一、知识补充</p>
+<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><p>主要有三个工具类</p>
+<ul>
+<li>着色器管理类</li>
+<li>GLTools函数</li>
+<li>freeglut静态库</li>
+</ul>
+<p>与之相对应的头文件如下所示</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2251862-700134bfac5bc91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="F6579472-322F-4E58-B600-D5E6A047E0DE.png"></p>
+<h2 id="重要函数"><a href="#重要函数" class="headerlink" title="重要函数"></a>重要函数</h2><p>3个自定义函数+main函数</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2251862-b621f865162c7902.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="BAC1A22F-188C-495C-B5EF-AC4499BC173D.png"></p>
+<ul>
+<li>ChangeSize主要是用于改变窗口大小，需要在main中通过<code>glutReshaperFunc(函数名)</code> 注册为<code>重塑函数</code><br>==&gt;  glViewport中有4个参数，分别是x, y, w, h<br>==&gt;  其中x，y表示窗口中视图的左下角坐标，通常都是为0<br>==&gt;  w，h表示窗口的宽和高，通常用像素位表示<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void change<span class="constructor">Size(<span class="params">int</span> <span class="params">w</span>,<span class="params">int</span> <span class="params">h</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    gl<span class="constructor">Viewport(0, 0, <span class="params">w</span>, <span class="params">h</span>)</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>setupRC函数主要用于配置图形绘制所需的顶点数据、颜色等</li>
+<li>RenderScene函数是将传入的顶点数据、颜色等通过批次容器类提交到着色器中进行绘制渲染。需要在main函数中通过<code>glutDisplayFunc(函数名)</code> 注册为 <code>显示函数</code></li>
+<li>main函数是<code>程序入口函数</code>，在main中需要做一些绘制前的准备工作，比如 初始化缓存窗口、设置窗口大小等<br>==&gt; 具体的流程图如下：<br><img src="https://upload-images.jianshu.io/upload_images/2251862-f95d8909915bf330.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="FB331374-0DE9-49F4-8871-D205D456FE2F.png"></li>
+</ul>
+<p>代码如下所示<br>  <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> main(<span class="built_in">int</span> argc,<span class="built_in">char</span> *argv<span class="literal">[]</span>)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化GLUT库,这个函数只是传说命令参数并且初始化glut库</span></span><br><span class="line">    glut<span class="constructor">Init(&amp;<span class="params">argc</span>, <span class="params">argv</span>)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//初始化双缓冲窗口</span></span><br><span class="line">    glut<span class="constructor">InitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STENCIL)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//GLUT窗口大小、窗口标题</span></span><br><span class="line">    glut<span class="constructor">InitWindowSize(800, 600)</span>;</span><br><span class="line">    glut<span class="constructor">CreateWindow(<span class="string">"Triangle"</span>)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//注册重塑函数</span></span><br><span class="line">    glut<span class="constructor">ReshapeFunc(<span class="params">changeSize</span>)</span>;</span><br><span class="line">    <span class="comment">//注册显示函数</span></span><br><span class="line">    glut<span class="constructor">DisplayFunc(RenderScene)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化一个GLEW库,确保OpenGL API对程序完全可用。</span></span><br><span class="line">    GLenum status = glew<span class="constructor">Init()</span>;</span><br><span class="line">    <span class="comment">//在试图做任何渲染之前，要检查确定驱动程序的初始化过程中没有任何问题</span></span><br><span class="line">    <span class="keyword">if</span> (GLEW_OK != status) &#123;</span><br><span class="line">        </span><br><span class="line">        printf(<span class="string">"GLEW Error:%s\n"</span>,glew<span class="constructor">GetErrorString(<span class="params">status</span>)</span>);</span><br><span class="line">        return <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置我们的渲染环境</span></span><br><span class="line">    setup<span class="constructor">RC()</span>;</span><br><span class="line">    glut<span class="constructor">MainLoop()</span>;</span><br><span class="line"> </span><br><span class="line">    return  <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="二、绘制三角形"><a href="#二、绘制三角形" class="headerlink" title="二、绘制三角形"></a>二、绘制三角形</h1><p>三角形绘制完成后的效果如下：<br><img src="https://upload-images.jianshu.io/upload_images/2251862-409ae569fe8044eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="926EEE7D-A488-42EE-9959-96B30A4759AE.png"></p>
+<p><strong>准备工作</strong></p>
+<p>搭建好OpenGL环境，具体可以参考<a href="https://www.jianshu.com/p/8f8a8d19614a" target="_blank" rel="noopener">Mac OpenGL 环境搭建</a>，这里就不再重复说明了</p>
+<ul>
+<li>准备工作的流程图如下：<br><img src="https://upload-images.jianshu.io/upload_images/2251862-1a0e8486376753c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5E90C137-6E56-429F-964E-B10666ADE287.png"></li>
+</ul>
+<ul>
+<li>绘制三角形的整体流程如下所示：</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/2251862-da7f89fd86a9aedd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8C4262B4-30C4-467A-9F58-DCC7CA0BB6C1.png"></p>
+<p>下面主要解释下两个函数</p>
+<p><strong>设置数据：setupRC函数</strong></p>
+<ul>
+<li>setupRC函数主要是针对需要绘制图形的顶点，颜色等数据的配置，并且利用批次容器类，将其传递到着色管理器中</li>
+<li>系统监听到数据已经配置完成，去自动调用OpenGL的渲染回调函数</li>
+</ul>
+<p>函数中的主要代码如下</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">void</span> setupRC()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//1、设置清屏颜色（背景颜色）</span></span><br><span class="line">    glClearColor(<span class="number">0.98f</span>, <span class="number">0.40f</span>, <span class="number">0.7f</span>, <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2、初始化一个渲染管理器</span></span><br><span class="line">    shaderManager.InitializeStockShaders();</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//3、指定顶点数据，每个顶点有三个坐标：xyz</span></span><br><span class="line">    GLfloat vVerts[] = &#123;</span><br><span class="line">        <span class="number">-0.5f</span>,<span class="number">0.0f</span>,<span class="number">0.0f</span>,</span><br><span class="line">        <span class="number">0.5f</span>,<span class="number">0.0f</span>,<span class="number">0.0f</span>,</span><br><span class="line">        <span class="number">0.0f</span>,<span class="number">0.5f</span>,<span class="number">0.0f</span></span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//4、利用批次容器类将顶点数据传入着色管理器</span></span><br><span class="line">    triangleBatch.Begin(GL_TRIANGLES, <span class="number">3</span>);</span><br><span class="line">    triangleBatch.CopyVertexData3f(vVerts);</span><br><span class="line">    triangleBatch.End();</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>显示回调函数：RenderScene函数</strong></p>
+<ul>
+<li>RenderScene函数中利用着色管理器针对传入的顶点数据在屏幕上进行绘制</li>
+<li>图形绘制前，需要清理一个/一组特定的缓冲区，并指定图形绘制的画笔颜色</li>
+</ul>
+<p>主要代码如下：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">void</span> RenderScene(<span class="built_in">void</span>)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//1.清除一个或者一组特定的缓存区</span></span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2.设置一组浮点数来表示红色</span></span><br><span class="line">    GLfloat vRed[] = &#123;<span class="number">1.0</span>,<span class="number">1.00</span>,<span class="number">0.0</span>,<span class="number">0.5f</span>&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//3、顶点数据传递到存储着色器    shaderManager.UseStockShader(GLT_SHADER_IDENTITY,vRed);</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//4、提交着色器，进行绘制</span></span><br><span class="line">    triangleBatch.Draw();</span><br><span class="line"></span><br><span class="line">   <span class="comment">//5、将后台缓冲区进行渲染，然后结束后交换给前台</span></span><br><span class="line">    glutSwapBuffers();</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/chenjialin1016/OpenGL-Demo" target="_blank" rel="noopener">完整Demo详见Github</a> – OpenGL 三角形绘制</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Style-月月 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="Style-月月 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="Style-月月 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/06/OpenGL-%E4%B8%93%E6%9C%89%E5%90%8D%E8%AF%8D/" rel="next" title="了解OpenGL常见专有名词">
+                <i class="fa fa-chevron-left"></i> 了解OpenGL常见专有名词
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/06/OpenGL-02/" rel="prev" title="案例 02、OpenGL入门--正方形键位控制">
+                案例 02、OpenGL入门--正方形键位控制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC81MDQ3MC8yNjk1Nw"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="Style-月月" />
+            
+              <p class="site-author-name" itemprop="name">Style-月月</p>
+              <p class="site-description motion-element" itemprop="description">随笔</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/chenjialin1016" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/lin1109221208" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-csdn"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具类"><span class="nav-number">1.</span> <span class="nav-text">工具类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重要函数"><span class="nav-number">2.</span> <span class="nav-text">重要函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、绘制三角形"><span class="nav-number"></span> <span class="nav-text">二、绘制三角形</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Style-月月</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">11k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

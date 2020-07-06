@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="GthFrJ1ky-fYHVFt1Z7Siye3kLyqYKFgt3thV4UElM4" />
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="OM2eQqaHyF" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,OpenGL," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="屏幕卡顿屏幕卡顿是指图形图像的在显示时出现了撕裂（即图片错位显示）、掉帧（重复显示同一帧数据）等问题，导致用户能直观的从屏幕上看到的一种异常现象为什么会出现这种情况呢？下面就来详细解说下屏幕卡顿 ###【高频面试题】屏幕卡顿的原因主要有以下三种原因  CPU和GPU在渲染的流水线中耗时过长，导致从缓存区获取位图显示时，下一帧的数据还没有准备好，获取的仍是上一帧的数据，产生掉帧现象，掉帧就会导致屏幕">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二、屏幕卡顿 及  iOS中的渲染流程解析">
+<meta property="og:url" content="https://chenjialin1016.com/2020/07/06/iOS-Render/index.html">
+<meta property="og:site_name" content="CJL&#39;s Blog">
+<meta property="og:description" content="屏幕卡顿屏幕卡顿是指图形图像的在显示时出现了撕裂（即图片错位显示）、掉帧（重复显示同一帧数据）等问题，导致用户能直观的从屏幕上看到的一种异常现象为什么会出现这种情况呢？下面就来详细解说下屏幕卡顿 ###【高频面试题】屏幕卡顿的原因主要有以下三种原因  CPU和GPU在渲染的流水线中耗时过长，导致从缓存区获取位图显示时，下一帧的数据还没有准备好，获取的仍是上一帧的数据，产生掉帧现象，掉帧就会导致屏幕">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-d6e1a2be72e67054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-abedb338639f6bc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-9157e65a737cb0cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-cee7ea0bf1035944.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-7eb0cce8c6483c02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-82871eb26c6ce251.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-3352012635c47e77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-1023aed5f7fa5d34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-6eba0d8bf7306c8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-052ed70c3b383d9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-4ec39335baf56af8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-07-06T03:00:09.000Z">
+<meta property="article:modified_time" content="2020-07-06T03:16:19.257Z">
+<meta property="article:author" content="Style-月月">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="OpenGL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2251862-d6e1a2be72e67054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://chenjialin1016.com/2020/07/06/iOS-Render/"/>
+
+
+
+
+
+  <title>二、屏幕卡顿 及  iOS中的渲染流程解析 | CJL's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4bef13e2843b15be60c50d33d23c9937";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CJL's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录学习中的点点滴滴</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chenjialin1016.com/2020/07/06/iOS-Render/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Style-月月">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CJL's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">二、屏幕卡顿 及  iOS中的渲染流程解析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-06T11:00:09+08:00">
+                2020-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.2k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="屏幕卡顿"><a href="#屏幕卡顿" class="headerlink" title="屏幕卡顿"></a>屏幕卡顿</h1><p>屏幕卡顿是指图形图像的在显示时出现了撕裂（即图片错位显示）、掉帧（重复显示同一帧数据）等问题，导致用户能直观的从屏幕上看到的一种异常现象<br>为什么会出现这种情况呢？下面就来详细解说下屏幕卡顿</p>
+<p>###【高频面试题】屏幕卡顿的原因<br>主要有以下三种原因</p>
+<ul>
+<li>CPU和GPU在渲染的流水线中耗时过长，导致从缓存区获取位图显示时，下一帧的数据还没有准备好，获取的仍是上一帧的数据，产生掉帧现象，掉帧就会导致屏幕卡顿</li>
+<li>苹果官方针对屏幕撕裂问题，目前一直使用的方案是<code>垂直同步+双缓存区</code>，可以从根本上防止和解决屏幕撕裂，但是同时也导致了新的问题<code>掉帧</code>。虽然我们采用了双缓存区，但是我们并不能解决CPU和GPU处理图形图像的速度问题，导致屏幕在接收到垂直信号时，数据尚未准备好，缓存区仍是上一帧的数据，因此导致掉帧</li>
+<li>在垂直同步+双缓存区的方案上，再次进行优化，将双缓存区，改为<code>三缓存区</code>，这样其实也并不能从根本上解决掉帧的问题，只是比双缓存区掉帧的概率小了很多，仍有掉帧的可能性，对于用户而言，可能是无感知的。</li>
+</ul>
+<p>接下来，详细解析下屏幕撕裂及掉帧问题</p>
+<h3 id="屏幕撕裂"><a href="#屏幕撕裂" class="headerlink" title="屏幕撕裂"></a>屏幕撕裂</h3><p>如图所示，屏幕撕裂就类似于这样的情形<br><img src="https://upload-images.jianshu.io/upload_images/2251862-d6e1a2be72e67054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕撕裂展示"></p>
+<p>在讲屏幕撕裂之前，首先说说屏幕是如何成像的，主要的流程是什么</p>
+<p><strong>屏幕成像过程</strong></p>
+<p>请看下面这张图，详细说明了屏幕成像的一个流程<br><img src="https://upload-images.jianshu.io/upload_images/2251862-abedb338639f6bc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕成像过程"></p>
+<ul>
+<li>将需要显示的图像，经由GPU渲染</li>
+<li>将渲染后的结果，存储到帧缓存区，帧缓存区中存储的格式是位图</li>
+<li>由视屏控制器从帧缓存区中读取位图，交由显示器，从左上角逐行扫描进行显示</li>
+</ul>
+<p><strong>屏幕撕裂的原因</strong></p>
+<ul>
+<li>在屏幕显示图形图像的过程中，是不断从帧缓存区获取一帧一帧数据进行显示的，</li>
+<li>然后在渲染的过程中，帧缓存区中仍是旧的数据，屏幕拿到旧的数据去进行显示，</li>
+<li>在旧的数据没有读取完时 ，新的一帧数据处理好了，放入了缓存区，这时就会导致屏幕另一部分的显示是获取的线数据，从而导致屏幕上呈现图片不匹配，人物、景象等错位显示的情况。<br>图示如下：<br><img src="https://upload-images.jianshu.io/upload_images/2251862-9157e65a737cb0cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕撕裂图解"></li>
+</ul>
+<p><strong>苹果官方的解决方案</strong><br>苹果官方针对屏幕撕裂现象，目前一直采用的是 <code>垂直同步+双缓存</code>，该方案是强制要求同步，且是以掉帧为代价的。</p>
+<p>以下是垂直同步+双缓存的一个图解过程，如有描述错误的地方，欢迎留言指出<br><img src="https://upload-images.jianshu.io/upload_images/2251862-cee7ea0bf1035944.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="垂直同步+双缓存区方案图解"></p>
+<ul>
+<li>垂直同步：是指给帧缓冲加锁，当电子光束扫描的过程中，只有扫描完成了才会读取下一帧的数据，而不是只读取一部分</li>
+<li>双缓冲区：采用两个帧缓冲区用途GPU处理结果的存储，当屏幕显示其中一个缓存区内容时，另一个缓冲区继续等待下一个缓冲结果，两个缓冲区依次进行交替</li>
+</ul>
+<h3 id="掉帧"><a href="#掉帧" class="headerlink" title="掉帧"></a>掉帧</h3><p>采用苹果的双缓冲区方案后，又会出现新的问题，掉帧。<br>什么是掉帧？简单来说就是 屏幕重复显示同一帧数据的情况就是掉帧</p>
+<p>如图所示：当前屏幕显示的是A，在收到垂直信号后，CPU和GPU处理的B还没有准备好，此时，屏幕显示的仍然是A<br><img src="https://upload-images.jianshu.io/upload_images/2251862-7eb0cce8c6483c02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="掉帧现象图示"></p>
+<ul>
+<li>针对掉帧情况，我们可以在苹果方案的基础上进行优化，即采用<code>三缓存区</code>，意味着，在屏幕显示时，后面还准备了3个数据用于显示。</li>
+</ul>
+<h1 id="iOS中的渲染"><a href="#iOS中的渲染" class="headerlink" title="iOS中的渲染"></a>iOS中的渲染</h1><p>在iOS中渲染的整体流程如下所示<br><img src="https://upload-images.jianshu.io/upload_images/2251862-82871eb26c6ce251.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="iOS中渲染的整体流程"></p>
+<ul>
+<li>App通过调用CoreGraphics、CoreAnimation、CoreImage等框架的接口触发图形渲染操作</li>
+<li>CoreGraphics、CoreAnimation、CoreImage等框架将渲染交由OpenGL ES，由OpenGL ES来驱动GPU做渲染，最后显示到屏幕上</li>
+<li>由于OpenGL ES 是跨平台的，所以在他的实现中，是不能有任何窗口相关的代码，而是让各自的平台为OpenGL ES提供载体。在ios中，如果需要使用OpenGL ES，就是通过CoreAnimation提供窗口，让App可以去调用。</li>
+</ul>
+<h3 id="iOS中渲染框架总结"><a href="#iOS中渲染框架总结" class="headerlink" title="iOS中渲染框架总结"></a>iOS中渲染框架总结</h3><p>主要由以下六种框架，表格中已经说明了，就不再详细解释了<br><img src="https://upload-images.jianshu.io/upload_images/2251862-3352012635c47e77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="渲染框架总结"></p>
+<h3 id="View-与-CALayer-的关系"><a href="#View-与-CALayer-的关系" class="headerlink" title="View 与 CALayer 的关系"></a>View 与 CALayer 的关系</h3><p>首先分别简单说下UIView和CALayer各自的作用</p>
+<p><strong>UIView</strong></p>
+<ul>
+<li>UIView属于UIKIt</li>
+<li>负责绘制图形和动画操作</li>
+<li>用于界面布局和子视图的管理</li>
+<li>处理用户的点击事件</li>
+</ul>
+<p><strong>CALayer</strong></p>
+<ul>
+<li>CALayer属于CoreAnimation</li>
+<li>只负责显示，且显示的是位图</li>
+<li>CALayer既用于UIKit，也用于APPKit，<br>==&gt; UIKit是iOS平台的渲染框架，APPKit是Mac OSX系统下的渲染框架，<br>==&gt; 由于iOS和Mac两个系统的界面布局并不是一致的，iOS是基于多点触控的交互方式，而Mac OSX是基于鼠标键盘的交互方式，且分别在对应的框架中做了布局的操作，所以并不需要layer载体去布局，且不用迎合任何布局方式。</li>
+</ul>
+<p><strong>【面试题】UIView和CALayer的关系</strong></p>
+<ul>
+<li>UIView基于UIKit框架，可以处理用户触摸事件，并管理子视图</li>
+<li>CALayer基于CoreAnimation，而CoreAnimation是基于QuartzCode的。所以CALayer只负责显示，不能处理用户的触摸事件</li>
+<li>从父类来说，CALayer继承的是NSObject，而UIView是直接继承自UIResponder的，所以UIVIew相比CALayer而言，只是多了事件处理功能，</li>
+<li>从底层来说，UIView属于UIKit的组件，而UIKit的组件到最后都会被分解成layer，存储到图层树中</li>
+<li>在应用层面来说，需要与用户交互时，使用UIView，不需要交互时，使用两者都可以</li>
+</ul>
+<p><strong>UIView和CALayer的渲染</strong></p>
+<p>下图可以说明view 和 layer之间是如何渲染的<br><img src="https://upload-images.jianshu.io/upload_images/2251862-1023aed5f7fa5d34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="view和layer的渲染"></p>
+<ul>
+<li>界面触发的方式有两种<br>==&gt; 通过loadView中子View的drawRect方法触发：会回调CoreAnimation中监听Runloop的BeforeWaiting的<code>RunloopObserver</code>，通过RunloopObserver来进一步调用CoreAnimation内部的<code>CA::Transaction::commit()</code>，进而一步步走到<code>drawRect</code>方法<br>==&gt; 用户点击事件触发：唤醒Runloop，由source1处理<code>(__IOHIDEventSystemClientQueueCallback)</code>，并且在下一个runloop里由source0转发给<code>UIApplication(_UIApplicationHandleEventQueue)</code>，从而能通过source0里的事件队列来调用CoreAnimation内部的<code>CA::Transaction::commit()</code>;方法，进而一步一步的调用<code>drawRect</code>。<br>最终都会走到CoreAnimation中的<code>CA::Transaction::commit()</code>方法，从而来触发UIView和CALayer的渲染</li>
+<li>这时，已经到了CoreAnimation的内部，即调用<code>CA::Transaction::commit()</code>;来创建CATrasaction，然后进一步调用 <code>CALayer drawInContext:()</code></li>
+<li>回调CALayer的Delegate(UIView)，问UIView没有需要画的内容，即回调到<code>drawRect:</code>方法</li>
+<li>在drawRect:方法里可以通过CoreGraphics函数或UIKit中对CoreGraphics封装的方法进行画图操作<ul>
+<li>将绘制好的位图交由CALayer，由OpenGL ES 传送到GPU的帧缓冲区</li>
+</ul>
+</li>
+<li>等屏幕接收到垂直信号后，就读取帧缓冲区的数据，显示到屏幕上</li>
+</ul>
+<h3 id="CoreAnimation"><a href="#CoreAnimation" class="headerlink" title="CoreAnimation"></a>CoreAnimation</h3><p>在苹果官方的描述中，<code>Render、Compose，and animate visual elements</code>，CoreAnimationg中的动画只是一部分，它其实是一个复合引擎，主要的职责包括 渲染、构建和动画实现。</p>
+<p>ios中CoreAnimation如图所示<br><img src="https://upload-images.jianshu.io/upload_images/2251862-6eba0d8bf7306c8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UIKit和APPKit"></p>
+<ul>
+<li>ios中基于CoreAnimation构建的框架有两个：UIKit和APPKit</li>
+<li>CoreAnimation 又是基于Metal 、CoreGraphics封装的</li>
+</ul>
+<p><strong>苹果为什么要基于UIView和CALayer提供两个平行的层级关系（UIKit 和APPKit）？</strong></p>
+<ul>
+<li><code>职责分离</code>，可以避免大量重复代码</li>
+<li><code>两个系统交互规则不一致</code>，虽然功能上类似，但实现上有显著区别</li>
+</ul>
+<h4 id="CoreAnimation中的渲染流水线"><a href="#CoreAnimation中的渲染流水线" class="headerlink" title="CoreAnimation中的渲染流水线"></a>CoreAnimation中的渲染流水线</h4><p>CoreAnimation中渲染的流程如图所示<br><img src="https://upload-images.jianshu.io/upload_images/2251862-052ed70c3b383d9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CoreAnimation渲染流程"></p>
+<p>主要分为两部分：</p>
+<ul>
+<li>CoreAnimation部分</li>
+<li>GPU部分</li>
+</ul>
+<p><strong>CoreAnimation部分</strong></p>
+<ul>
+<li>App处理UIView、UIButton等载体的事件，然后通过CPU完成对显示内容的计算，并将计算后的图层进行打包，在下一次runloop时，发送到渲染服务器</li>
+<li>Render Server中主要对收到的准备显示的内容进行解码，然后执行OpenGL等相关程序，并调用GPU进行渲染<br>==&gt; Render Server 操作分析<br><img src="https://upload-images.jianshu.io/upload_images/2251862-4ec39335baf56af8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Render Server 操作分析"></li>
+</ul>
+<p><strong>GPU部分</strong></p>
+<ul>
+<li>GPU中通过顶点着色器、片元着色器完成对显示内容的渲染，将结果存入帧缓存区</li>
+<li>GPU通过帧缓存区、视频控制器等相关部件，将其显示到屏幕上</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Style-月月 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="Style-月月 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="Style-月月 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/06/OpenGL-02/" rel="next" title="案例 02、OpenGL入门--正方形键位控制">
+                <i class="fa fa-chevron-left"></i> 案例 02、OpenGL入门--正方形键位控制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC81MDQ3MC8yNjk1Nw"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="Style-月月" />
+            
+              <p class="site-author-name" itemprop="name">Style-月月</p>
+              <p class="site-description motion-element" itemprop="description">随笔</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/chenjialin1016" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/lin1109221208" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-csdn"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#屏幕卡顿"><span class="nav-number">1.</span> <span class="nav-text">屏幕卡顿</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#屏幕撕裂"><span class="nav-number">1.0.1.</span> <span class="nav-text">屏幕撕裂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#掉帧"><span class="nav-number">1.0.2.</span> <span class="nav-text">掉帧</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS中的渲染"><span class="nav-number">2.</span> <span class="nav-text">iOS中的渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS中渲染框架总结"><span class="nav-number">2.0.1.</span> <span class="nav-text">iOS中渲染框架总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View-与-CALayer-的关系"><span class="nav-number">2.0.2.</span> <span class="nav-text">View 与 CALayer 的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CoreAnimation"><span class="nav-number">2.0.3.</span> <span class="nav-text">CoreAnimation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CoreAnimation中的渲染流水线"><span class="nav-number">2.0.3.1.</span> <span class="nav-text">CoreAnimation中的渲染流水线</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Style-月月</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">11k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

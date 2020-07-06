@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="GthFrJ1ky-fYHVFt1Z7Siye3kLyqYKFgt3thV4UElM4" />
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="OM2eQqaHyF" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OpenGL," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="效果图如下所示： 整体的流程图如下 主要需要实现以下两部分：  绘制正方形 特殊键位移动函数  绘制正方形在之前的三角形绘制中，我们已经了解了图形绘制的一个基本流程，那么正方形的绘制就是水到渠成的，只需要在三角形代码的基础上做以下修改：  定义顶点到原心距离，即 正方形边长 &#x3D; blockSize * 21GLfloat blockSize &#x3D; 0.1f; 修改顶点数组1234567&#x2F;&#x2F;正方形四个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="案例 02、OpenGL入门--正方形键位控制">
+<meta property="og:url" content="https://chenjialin1016.com/2020/07/06/OpenGL-02/index.html">
+<meta property="og:site_name" content="CJL&#39;s Blog">
+<meta property="og:description" content="效果图如下所示： 整体的流程图如下 主要需要实现以下两部分：  绘制正方形 特殊键位移动函数  绘制正方形在之前的三角形绘制中，我们已经了解了图形绘制的一个基本流程，那么正方形的绘制就是水到渠成的，只需要在三角形代码的基础上做以下修改：  定义顶点到原心距离，即 正方形边长 &#x3D; blockSize * 21GLfloat blockSize &#x3D; 0.1f; 修改顶点数组1234567&#x2F;&#x2F;正方形四个">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-a6406ce7d9ba66c9.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-293d1030bab8bbf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-e1511b5b268265f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-801678ae0c9d2878.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-f1e142203212e34f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-6f786dfae3516381.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2251862-931f9ace19976f1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-07-06T02:59:42.000Z">
+<meta property="article:modified_time" content="2020-07-06T03:15:54.911Z">
+<meta property="article:author" content="Style-月月">
+<meta property="article:tag" content="OpenGL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2251862-a6406ce7d9ba66c9.gif?imageMogr2/auto-orient/strip">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://chenjialin1016.com/2020/07/06/OpenGL-02/"/>
+
+
+
+
+
+  <title>案例 02、OpenGL入门--正方形键位控制 | CJL's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4bef13e2843b15be60c50d33d23c9937";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CJL's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录学习中的点点滴滴</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chenjialin1016.com/2020/07/06/OpenGL-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Style-月月">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CJL's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">案例 02、OpenGL入门--正方形键位控制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-06T10:59:42+08:00">
+                2020-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OpenGL/" itemprop="url" rel="index">
+                    <span itemprop="name">OpenGL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.6k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>效果图如下所示：<br><img src="https://upload-images.jianshu.io/upload_images/2251862-a6406ce7d9ba66c9.gif?imageMogr2/auto-orient/strip" alt="02、正方形键位控制.gif"></p>
+<p>整体的流程图如下<br><img src="https://upload-images.jianshu.io/upload_images/2251862-293d1030bab8bbf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="正方形键位控制整体流程图"></p>
+<p>主要需要实现以下两部分：</p>
+<ul>
+<li>绘制正方形</li>
+<li>特殊键位移动函数</li>
+</ul>
+<h1 id="绘制正方形"><a href="#绘制正方形" class="headerlink" title="绘制正方形"></a>绘制正方形</h1><p>在之前的三角形绘制中，我们已经了解了图形绘制的一个基本流程，那么正方形的绘制就是水到渠成的，只需要在三角形代码的基础上做以下修改：</p>
+<ul>
+<li>定义顶点到原心距离，即 <code>正方形边长 = blockSize * 2</code><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLfloat blockSize = <span class="number">0.1</span>f<span class="comment">;</span></span><br></pre></td></tr></table></figure></li>
+<li>修改顶点数组<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//正方形四个点的坐标</span><br><span class="line"><span class="symbol">GLfloat</span> vVerts[] = &#123;</span><br><span class="line">    -<span class="keyword">blockSize, </span>-<span class="keyword">blockSize, </span><span class="number">0</span>.<span class="number">0</span>f,</span><br><span class="line">    <span class="keyword">blockSize, </span>-<span class="keyword">blockSize, </span><span class="number">0</span>.<span class="number">0</span>f,</span><br><span class="line">    <span class="keyword">blockSize, </span><span class="keyword">blockSize, </span><span class="number">0</span>.<span class="number">0</span>f,</span><br><span class="line">    -<span class="keyword">blockSize, </span><span class="keyword">blockSize, </span><span class="number">0</span>.<span class="number">0</span>f,</span><br><span class="line">&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure></li>
+<li>修改setupRC函数中图元的连接方式<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将 GL_TRIANGLES 修改为 GL_TRIANGLE_FAN ,4个顶点</span></span><br><span class="line">    triangleBatch.Begin(GL_TRIANGLE_FAN, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+到此，正方形就绘制完成了，接下来我们需要完成正方形键位控制效果</li>
+</ul>
+<h1 id="键位控制效果"><a href="#键位控制效果" class="headerlink" title="键位控制效果"></a>键位控制效果</h1><p>主要是指正方形根据选择键盘的上下左右键移动。</p>
+<p>该效果的实现有两种方式</p>
+<ul>
+<li>坐标更新方式</li>
+<li>矩阵方式</li>
+</ul>
+<p>打个比方，有100件需要染同一种颜色的衣服，你可以选择一件一件的染色，也可以选择同时将100件放入染缸，一起染色，</p>
+<ul>
+<li>其中一件一件染色指代的就是坐标更新方式，适用于顶点较少的图形，</li>
+<li>同时放入染色指代的就是矩阵方式，当图形顶点非常多的，再用坐标更新就不合适了，需要使用矩阵来同时更新。</li>
+</ul>
+<h3 id="坐标更新方式"><a href="#坐标更新方式" class="headerlink" title="坐标更新方式"></a>坐标更新方式</h3><p>顶点根据相对顶点逐个更新顶点坐标，在SpecialKeys函数中完成键位移动时坐标的更新，并手动调用渲染。</p>
+<p>三个自定义函数的流程图如下：<br><img src="https://upload-images.jianshu.io/upload_images/2251862-e1511b5b268265f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="坐标更新-自定义函数实现流程"></p>
+<p>ChangeSize和RenderScene就不做解释了，在绘制时，这部分已经完成了，主要说说<code>SpecialKeys</code>函数</p>
+<ul>
+<li>首先需要定义一个步长</li>
+<li>定义一个相对顶点的x和y值<br>假设正方形如下图所示，以D为相对顶点<br><img src="https://upload-images.jianshu.io/upload_images/2251862-801678ae0c9d2878.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="正方形.png"></li>
+<li>根据键位方向，分别更新x 和 y</li>
+<li>边缘碰撞处理<br>如果没有这个步骤，图形移动到边缘时，就会移动到屏幕不可见的区域，下图可以说明4个方向对边缘碰撞处理是如何计算的，这里就不做详细说明了<br><img src="https://upload-images.jianshu.io/upload_images/2251862-f1e142203212e34f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="坐标更新-边缘碰撞计算"></li>
+</ul>
+<p>具体的代码实现如下：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//key 枚举值，x、y是位置</span></span><br><span class="line">void SpecialKeys(int <span class="type">key</span>, int x, int y)&#123;</span><br><span class="line">    <span class="comment">//步长</span></span><br><span class="line">    GLfloat stepSize = <span class="number">0.025</span>f;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//相对点的坐标</span></span><br><span class="line">    GLfloat blockX = vVerts[<span class="number">0</span>];</span><br><span class="line">    GLfloat blockY = vVerts[<span class="number">10</span>];</span><br><span class="line">    </span><br><span class="line">    printf(<span class="string">"v[0] = %f<span class="subst">\n</span>"</span>,blockX);</span><br><span class="line">    printf(<span class="string">"v[10] = %f<span class="subst">\n</span>"</span>,blockY);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//根据移动方向，更新相对坐标</span></span><br><span class="line">    if (<span class="type">key</span> == GLUT_KEY_UP) &#123;</span><br><span class="line">        blockY += stepSize;</span><br><span class="line">    &#125;</span><br><span class="line">    if (<span class="type">key</span> == GLUT_KEY_DOWN) &#123;</span><br><span class="line">        blockY -= stepSize;</span><br><span class="line">    &#125;</span><br><span class="line">    if (<span class="type">key</span> == GLUT_KEY_LEFT) &#123;</span><br><span class="line">        blockX -= stepSize;</span><br><span class="line">    &#125;</span><br><span class="line">    if (<span class="type">key</span> == GLUT_KEY_RIGHT) &#123;</span><br><span class="line">        blockX += stepSize;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//触碰到边界（4个边界）的处理</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//当正方形移动超过最左边的时候</span></span><br><span class="line">    if (blockX &lt; <span class="number">-1.0</span>f) &#123;</span><br><span class="line">        blockX = <span class="number">-1.0</span>f;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//当正方形移动到最右边时</span></span><br><span class="line">    <span class="comment">//1.0 - blockSize * 2 = 总边长 - 正方形的边长 = 最左边点的位置</span></span><br><span class="line">    if (blockX &gt; (<span class="number">1.0</span>f - blockSize * <span class="number">2</span>)) &#123;</span><br><span class="line">        blockX = <span class="number">1.0</span>f - blockSize * <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//当正方形移动到最下面时</span></span><br><span class="line">    <span class="comment">//-1.0 - blockSize * 2 = Y（负轴边界） - 正方形边长 = 最下面点的位置</span></span><br><span class="line">    if (blockY &lt; <span class="number">-1.0</span>f + blockSize * <span class="number">2</span>) &#123;</span><br><span class="line">        blockY = <span class="number">-1.0</span>f + blockSize * <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//当正方形移动到最上面时</span></span><br><span class="line">    if (blockY &gt; <span class="number">1.0</span>f) &#123;</span><br><span class="line">        blockY = <span class="number">1.0</span>f;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    printf(<span class="string">"blockX = %f<span class="subst">\n</span>"</span>,blockX);</span><br><span class="line">    printf(<span class="string">"blockY = %f<span class="subst">\n</span>"</span>,blockY);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//重新计算正方形的位置</span></span><br><span class="line">    <span class="comment">//一个顶点有三个数 x、y、z</span></span><br><span class="line">    vVerts[<span class="number">0</span>] = blockX;</span><br><span class="line">    vVerts[<span class="number">1</span>] = blockY - blockSize * <span class="number">2</span>;</span><br><span class="line">    printf(<span class="string">"(%f,%f)<span class="subst">\n</span>"</span>,vVerts[<span class="number">0</span>],vVerts[<span class="number">1</span>]);</span><br><span class="line">    </span><br><span class="line">    vVerts[<span class="number">3</span>] = blockX + blockSize * <span class="number">2</span>;</span><br><span class="line">    vVerts[<span class="number">4</span>] = blockY - blockSize * <span class="number">2</span>;</span><br><span class="line">    printf(<span class="string">"(%f,%f)<span class="subst">\n</span>"</span>,vVerts[<span class="number">3</span>],vVerts[<span class="number">4</span>]);</span><br><span class="line">    </span><br><span class="line">    vVerts[<span class="number">6</span>] = blockX + blockSize * <span class="number">2</span>;</span><br><span class="line">    vVerts[<span class="number">7</span>] = blockY;</span><br><span class="line">    printf(<span class="string">"(%f,%f)<span class="subst">\n</span>"</span>,vVerts[<span class="number">6</span>],vVerts[<span class="number">7</span>]);</span><br><span class="line">    </span><br><span class="line">    vVerts[<span class="number">9</span>] = blockX;</span><br><span class="line">    vVerts[<span class="number">10</span>] = blockY;</span><br><span class="line">    printf(<span class="string">"(%f,%f)<span class="subst">\n</span>"</span>,vVerts[<span class="number">9</span>],vVerts[<span class="number">10</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//更新顶点数据</span></span><br><span class="line">    triangleBatch.CopyVertexData3f(vVerts);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//重新渲染提交 --&gt; RenderScene</span></span><br><span class="line">    glutPostRedisplay();</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>###矩阵方式<br>主要是根据x轴、y轴移动的距离，生成一个平移矩阵，通过<code>图形*平移矩阵 = 移动后的图形</code>，得到最终效果</p>
+<p>涉及两个函数：<code>RenderScene、SpecialKeys</code></p>
+<p>矩阵方式中自定义函数的流程如下：<br><img src="https://upload-images.jianshu.io/upload_images/2251862-6f786dfae3516381.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="矩阵-自定义函数"></p>
+<p><strong>SpecialKeys 函数</strong></p>
+<ul>
+<li>定义步长及两个全局变量（相对于x轴和y轴的平移距离）<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//记录移动图形时，在x轴上平移的距离</span></span><br><span class="line">GLfloat xPos = <span class="number">0.0f</span>;</span><br><span class="line"><span class="comment">//记录移动图形时，在y轴上平移的距离</span></span><br><span class="line">GLfloat yPos = <span class="number">0.0f</span>;</span><br><span class="line"></span><br><span class="line">GLfloat stepSize = <span class="number">0.025f</span>;</span><br></pre></td></tr></table></figure></li>
+<li>根据移动方向，计算移动距离</li>
+<li>边缘碰撞处理<br>其移动距离计算的理解如图所示<br>==&gt; 可以将初始化的平移距离理解为正方形的中心，即原点，在图形移动时，其中心点也发生了移动，所以我们要计算的边缘的移动距离就是两个中心店之间的平移距离<br><img src="https://upload-images.jianshu.io/upload_images/2251862-931f9ace19976f1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="矩阵-边缘碰撞处理逻辑"></li>
+<li>手动触发重新渲染</li>
+</ul>
+<p>具体实现如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">//使用矩阵方式（一起搞定），不需要修改每个顶点，只需要记录移动步长，碰撞检测</span></span><br><span class="line"><span class="attr">void</span> <span class="string">SpecialKeys(int key, int x, int y)&#123;</span></span><br><span class="line">    </span><br><span class="line">   </span><br><span class="line">    </span><br><span class="line">    <span class="attr">GLfloat</span> <span class="string">stepSize = 0.025f;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">if</span> <span class="string">(key == GLUT_KEY_UP) &#123;</span></span><br><span class="line">        </span><br><span class="line">        <span class="attr">yPos</span> <span class="string">+= stepSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">if</span> <span class="string">(key == GLUT_KEY_DOWN) &#123;</span></span><br><span class="line">        <span class="attr">yPos</span> <span class="string">-= stepSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">if</span> <span class="string">(key == GLUT_KEY_LEFT) &#123;</span></span><br><span class="line">        <span class="attr">xPos</span> <span class="string">-= stepSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">if</span> <span class="string">(key == GLUT_KEY_RIGHT) &#123;</span></span><br><span class="line">        <span class="attr">xPos</span> <span class="string">+= stepSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">//碰撞检测</span> <span class="string">xPos是平移距离，即移动量</span></span><br><span class="line">    <span class="attr">if</span> <span class="string">(xPos &lt; (-1.0f + blockSize)) &#123;</span></span><br><span class="line">        </span><br><span class="line">        <span class="attr">xPos</span> = <span class="string">-1.0f + blockSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">if</span> <span class="string">(xPos &gt; (1.0f - blockSize)) &#123;</span></span><br><span class="line">        <span class="attr">xPos</span> = <span class="string">1.0f - blockSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">if</span> <span class="string">(yPos &lt; (-1.0f + blockSize)) &#123;</span></span><br><span class="line">        <span class="attr">yPos</span> = <span class="string">-1.0f + blockSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">if</span> <span class="string">(yPos &gt; (1.0f - blockSize)) &#123;</span></span><br><span class="line">        <span class="attr">yPos</span> = <span class="string">1.0f - blockSize;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="attr">glutPostRedisplay();</span></span><br><span class="line">    </span><br><span class="line"><span class="attr">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>RenderScene 函数</strong><br>主要步骤如下：</p>
+<ul>
+<li>清理特定缓存区</li>
+<li>根据平移距离计算平移矩阵</li>
+<li>将矩阵结果交给存储着色器（平面着色器）中绘制<br>在位置更新方式中，使用的是单元着色器，而矩阵方式中，涉及的矩阵是4*4的，单元着色器不够用，所以使用平面着色器</li>
+</ul>
+<p>具体的代码实现如下</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//开始渲染</span></span><br><span class="line">void <span class="constructor">RenderScene(<span class="params">void</span>)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//1.清除一个或者一组特定的缓存区</span></span><br><span class="line">    gl<span class="constructor">Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//1.设置颜色RGBA</span></span><br><span class="line">    GLfloat vRed<span class="literal">[]</span> = &#123;<span class="number">1.0</span>f, <span class="number">0.5</span>f, <span class="number">0.0</span>f, <span class="number">1.0</span>f&#125;;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//定义矩阵</span></span><br><span class="line">    M3DMatrix44f mTransformMatrix;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//平移矩阵</span></span><br><span class="line">    m3d<span class="constructor">TranslationMatrix44(<span class="params">mTransformMatrix</span>, <span class="params">xPos</span>, <span class="params">yPos</span>, 0.0f)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//当单元着色器不够用时，使用平面着色器</span></span><br><span class="line">    <span class="comment">//参数1：存储着色器类型</span></span><br><span class="line">    <span class="comment">//参数2：使用什么矩阵变换</span></span><br><span class="line">    <span class="comment">//参数3：颜色</span></span><br><span class="line">    shaderManager.<span class="constructor">UseStockShader(GLT_SHADER_FLAT, <span class="params">mTransformMatrix</span>, <span class="params">vRed</span>)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//提交着色器</span></span><br><span class="line">    triangleBatch.<span class="constructor">Draw()</span>;</span><br><span class="line">    glut<span class="constructor">SwapBuffers()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/chenjialin1016/OpenGL-Demo" target="_blank" rel="noopener">完整代码见Github </a>-02_正方形键位控制</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Style-月月 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="Style-月月 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="Style-月月 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/06/OpenGL-01/" rel="next" title="案例 01、OpenGL入门--绘制三角形">
+                <i class="fa fa-chevron-left"></i> 案例 01、OpenGL入门--绘制三角形
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/06/iOS-Render/" rel="prev" title="二、屏幕卡顿 及  iOS中的渲染流程解析">
+                二、屏幕卡顿 及  iOS中的渲染流程解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC81MDQ3MC8yNjk1Nw"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="Style-月月" />
+            
+              <p class="site-author-name" itemprop="name">Style-月月</p>
+              <p class="site-description motion-element" itemprop="description">随笔</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/chenjialin1016" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/lin1109221208" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-csdn"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#绘制正方形"><span class="nav-number">1.</span> <span class="nav-text">绘制正方形</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#键位控制效果"><span class="nav-number">2.</span> <span class="nav-text">键位控制效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#坐标更新方式"><span class="nav-number">2.0.1.</span> <span class="nav-text">坐标更新方式</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Style-月月</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">11k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -72,7 +72,7 @@
 
 
 
-  <meta name="keywords" content="Flutter," />
+  <meta name="keywords" content="OpenGL," />
 
 
 
@@ -83,16 +83,16 @@
 
 
 
-<meta name="description" content="快捷键 用途    Ctrl + Option + O 删除未使用的import   option + 回车 自动import未导入的文件   CMD + -&#x2F;+ 折叠&#x2F;展开代码块   CMD + Shift + -&#x2F;+ 折叠&#x2F;展开所有代码块   CMD + . 折叠&#x2F;展开选中代码   CMD + , 进入偏好设置界面   CMD + [ 光标回到上一次编辑的位置   CMD + ] 光标回">
+<meta name="description" content="状态机 可以理解为一个保存对象当前状态，且可以根据输入修改当前状态进行响应的机器  特点  记忆功能：保存当前状态（如使用颜色、混合功能是否开启等） 接收输入：根据输入修改当前状态，且有相应输出 进入停机状态时，不再接受输入，且停止工作  上下文 Context  一个保存OpenGL中各种状态的庞大状态机， 是OpenGL指令执行的基础，需要在调用指令之前创建   OpenGL函数 与 上下文">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flutter 常用快捷键">
-<meta property="og:url" content="https://chenjialin1016.com/2020/06/15/Fullter-shortcutKey/index.html">
+<meta property="og:title" content="了解OpenGL常见专有名词">
+<meta property="og:url" content="https://chenjialin1016.com/2020/07/06/OpenGL-%E4%B8%93%E6%9C%89%E5%90%8D%E8%AF%8D/index.html">
 <meta property="og:site_name" content="CJL&#39;s Blog">
-<meta property="og:description" content="快捷键 用途    Ctrl + Option + O 删除未使用的import   option + 回车 自动import未导入的文件   CMD + -&#x2F;+ 折叠&#x2F;展开代码块   CMD + Shift + -&#x2F;+ 折叠&#x2F;展开所有代码块   CMD + . 折叠&#x2F;展开选中代码   CMD + , 进入偏好设置界面   CMD + [ 光标回到上一次编辑的位置   CMD + ] 光标回">
-<meta property="article:published_time" content="2020-06-15T07:50:30.000Z">
-<meta property="article:modified_time" content="2020-06-15T08:09:30.866Z">
+<meta property="og:description" content="状态机 可以理解为一个保存对象当前状态，且可以根据输入修改当前状态进行响应的机器  特点  记忆功能：保存当前状态（如使用颜色、混合功能是否开启等） 接收输入：根据输入修改当前状态，且有相应输出 进入停机状态时，不再接受输入，且停止工作  上下文 Context  一个保存OpenGL中各种状态的庞大状态机， 是OpenGL指令执行的基础，需要在调用指令之前创建   OpenGL函数 与 上下文">
+<meta property="article:published_time" content="2020-07-06T02:56:42.000Z">
+<meta property="article:modified_time" content="2020-07-06T03:13:01.791Z">
 <meta property="article:author" content="Style-月月">
-<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="OpenGL">
 <meta name="twitter:card" content="summary">
 
 
@@ -123,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://chenjialin1016.com/2020/06/15/Fullter-shortcutKey/"/>
+  <link rel="canonical" href="https://chenjialin1016.com/2020/07/06/OpenGL-专有名词/"/>
 
 
 
 
 
-  <title>Flutter 常用快捷键 | CJL's Blog</title>
+  <title>了解OpenGL常见专有名词 | CJL's Blog</title>
   
 
 
@@ -266,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chenjialin1016.com/2020/06/15/Fullter-shortcutKey/">
+    <link itemprop="mainEntityOfPage" href="https://chenjialin1016.com/2020/07/06/OpenGL-%E4%B8%93%E6%9C%89%E5%90%8D%E8%AF%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Style-月月">
@@ -283,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Flutter 常用快捷键</h1>
+          <h1 class="post-title" itemprop="name headline">了解OpenGL常见专有名词</h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-15T15:50:30+08:00">
-                2020-06-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-06T10:56:42+08:00">
+                2020-07-06
               </time>
             
 
@@ -318,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Flutter/" itemprop="url" rel="index">
-                    <span itemprop="name">Flutter</span>
+                  <a href="/categories/OpenGL/" itemprop="url" rel="index">
+                    <span itemprop="name">OpenGL</span>
                   </a>
                 </span>
 
@@ -354,7 +354,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  164
+                  1.5k
                 </span>
               
 
@@ -379,78 +379,140 @@
       
 
       
-        <table>
-<thead>
-<tr>
-<th align="center">快捷键</th>
-<th align="center">用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">Ctrl + Option + O</td>
-<td align="center">删除未使用的import</td>
-</tr>
-<tr>
-<td align="center">option + 回车</td>
-<td align="center">自动import未导入的文件</td>
-</tr>
-<tr>
-<td align="center">CMD + -/+</td>
-<td align="center">折叠/展开代码块</td>
-</tr>
-<tr>
-<td align="center">CMD + Shift + -/+</td>
-<td align="center">折叠/展开所有代码块</td>
-</tr>
-<tr>
-<td align="center">CMD + .</td>
-<td align="center">折叠/展开选中代码</td>
-</tr>
-<tr>
-<td align="center">CMD + ,</td>
-<td align="center">进入偏好设置界面</td>
-</tr>
-<tr>
-<td align="center">CMD + [</td>
-<td align="center">光标回到上一次编辑的位置</td>
-</tr>
-<tr>
-<td align="center">CMD + ]</td>
-<td align="center">光标回到下一次编辑的位置</td>
-</tr>
-<tr>
-<td align="center">CMD + L</td>
-<td align="center">定位某一行/某一个字符</td>
-</tr>
-<tr>
-<td align="center">CMD + /</td>
-<td align="center">注释</td>
-</tr>
-<tr>
-<td align="center">CMD + Y</td>
-<td align="center">查看选中类的属性</td>
-</tr>
-<tr>
-<td align="center">CMD + O</td>
-<td align="center">快速打开</td>
-</tr>
-<tr>
-<td align="center">CMD + Option + M</td>
-<td align="center">将选中代码提取到某个方法中</td>
-</tr>
-<tr>
-<td align="center">CMD + Option + L</td>
-<td align="center">格式化代码</td>
-</tr>
-<tr>
-<td align="center">Option + Shift + Up/Down</td>
-<td align="center">上下移动行</td>
-</tr>
-<tr>
-<td align="center">CMD + + Shift + Up/Down</td>
-<td align="center">上下移动方法</td>
-</tr>
-</tbody></table>
+        <h1 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h1><blockquote>
+<p>可以理解为一个保存对象当前状态，且可以根据输入修改当前状态进行响应的机器</p>
+</blockquote>
+<p><strong>特点</strong></p>
+<ul>
+<li>记忆功能：保存当前状态（如使用颜色、混合功能是否开启等）</li>
+<li>接收输入：根据输入修改当前状态，且有相应输出</li>
+<li>进入停机状态时，不再接受输入，且停止工作</li>
+</ul>
+<h1 id="上下文-Context"><a href="#上下文-Context" class="headerlink" title="上下文 Context"></a>上下文 Context</h1><blockquote>
+<ul>
+<li>一个保存OpenGL中各种状态的庞大状态机，</li>
+<li>是OpenGL指令执行的基础，需要在调用指令之前创建</li>
+</ul>
+</blockquote>
+<p><strong>OpenGL函数 与 上下文</strong></p>
+<ul>
+<li>不论何种语言，OpenGL函数都是面向过程的函数</li>
+<li>函数本质：对context中某个状态/对象进行操作</li>
+<li>可以通过对OpenGL指令的封装，将OpenGL的相关函数调用封装成一个面向对象的图形API</li>
+</ul>
+<p><strong>问题：反复上下文切换/大量修改渲染状态，导致GPU开销较大</strong></p>
+<ul>
+<li>针对不同模块，创建不同的context进行状态管理，context之间共享纹理、缓冲区等资源</li>
+</ul>
+<h1 id="渲染-Rendering"><a href="#渲染-Rendering" class="headerlink" title="渲染 Rendering"></a>渲染 Rendering</h1><blockquote>
+<p>将图形/图像数据通过解码，将其显示绘制到屏幕上的操作</p>
+</blockquote>
+<h1 id="顶点数组-VertexArray、顶点缓冲区-VertexBuffer"><a href="#顶点数组-VertexArray、顶点缓冲区-VertexBuffer" class="headerlink" title="顶点数组 VertexArray、顶点缓冲区 VertexBuffer"></a>顶点数组 VertexArray、顶点缓冲区 VertexBuffer</h1><p>顶点：绘制图形时顶点位置的数据</p>
+<p><strong>OpenGL ES中的图元类型</strong></p>
+<blockquote>
+<p>屏幕中的所有图形/图像，都是由这三种图元组合而成的</p>
+</blockquote>
+<ul>
+<li>点</li>
+<li>线 </li>
+<li>三角形</li>
+</ul>
+<p><strong>顶点数据存储方式</strong></p>
+<blockquote>
+<p>顶点数组与顶点缓冲区的区别在于顶点数据的存储方式不同</p>
+</blockquote>
+<ul>
+<li>存储在内存中，即 【顶点数组】</li>
+<li>存储在GPU提前分配的显存中，即 【顶点缓冲区】</li>
+</ul>
+<h1 id="管线"><a href="#管线" class="headerlink" title="管线"></a>管线</h1><p>可以理解为流水线，该流水线有一个固定顺序的操作，需要按着这个顺序一个个执行</p>
+<p><strong>固定管线/存储着色器</strong></p>
+<ul>
+<li>一个已经封装好的Shader程序，开发者使用时，只需要传入相应参数，即可快速完成渲染，类似苹果系统中封装好的API<ul>
+<li>当固定管线无法完成每个业务时，需要将与业务相关的部分变成可编程，用户根据需要自定义管线来完成业务</li>
+<li>目前OpenGL中可编程的仅有两个程序：顶点着色器、片元着色器</li>
+</ul>
+</li>
+</ul>
+<h1 id="顶点着色器"><a href="#顶点着色器" class="headerlink" title="顶点着色器"></a>顶点着色器</h1><blockquote>
+<ul>
+<li>OpenGL中用来处理顶点相关代码的程序</li>
+<li>将顶点坐标由 自身坐标系 转换到 归一坐标系 </li>
+<li>是逐顶点运行的程序，即每个顶点数据都会执行一次，且是并行的</li>
+</ul>
+</blockquote>
+<p><strong>操作</strong></p>
+<ul>
+<li>确定顶点位置</li>
+<li>处理图形顶点的变换（旋转、平移、缩放）</li>
+<li>3D图形数据 投影换算 为2D图形数据</li>
+</ul>
+<h1 id="片元着色器"><a href="#片元着色器" class="headerlink" title="片元着色器"></a>片元着色器</h1><ul>
+<li>片元：理解为屏幕中的像素点</li>
+<li>片元着色器主要用于处理一个个的像素点，例如像素颜色的计算和填充<ul>
+<li>逐像素且在GPU并行运行的程序，即每个像素都会执行一次</li>
+</ul>
+</li>
+</ul>
+<p><strong>举例说明：图片饱和度是如何完成的？</strong></p>
+<ul>
+<li>通过片元着色器进行一个个像素点的修改来实现</li>
+</ul>
+<h1 id="GLSL（OpenGL-Shading-Language）"><a href="#GLSL（OpenGL-Shading-Language）" class="headerlink" title="GLSL（OpenGL Shading Language）"></a>GLSL（OpenGL Shading Language）</h1><ul>
+<li>OpenGL中着色编程的语言</li>
+<li>开发者可以使用该语言，自定义着色器</li>
+</ul>
+<h1 id="光栅化"><a href="#光栅化" class="headerlink" title="光栅化"></a>光栅化</h1><p>通过2个步骤产生片元的一个过程</p>
+<p><strong>具体描述</strong></p>
+<ul>
+<li>顶点数据转换为片元<ul>
+<li>几何图元转化为二维图像</li>
+</ul>
+</li>
+<li>把物体的数学描述和相关的颜色信息转换为屏幕上对应位置的像素及填充像素颜色<ul>
+<li>将模拟信号转换为离散信号</li>
+<li>是不可编程的过程</li>
+</ul>
+</li>
+</ul>
+<p><strong>作用</strong><br>将图转化为一个个栅格组成的图像</p>
+<p><strong>特点</strong><br>每个元素对应帧缓冲区中的一像素</p>
+<p><strong>执行的操作</strong></p>
+<ul>
+<li>确定图形的像素范围</li>
+<li>颜色附着上去，即分配一个颜色值和一个深度值到各个区域</li>
+</ul>
+<h1 id="纹理"><a href="#纹理" class="headerlink" title="纹理"></a>纹理</h1><p>可以理解为图片</p>
+<p><strong>目的</strong></p>
+<ul>
+<li>渲染图形时，可以使场景更加逼真</li>
+</ul>
+<h1 id="混合-Blending"><a href="#混合-Blending" class="headerlink" title="混合 Blending"></a>混合 Blending</h1><p>可以理解为两个图形/图像相交处的颜色，该颜色即为两个图形/图像颜色的混合</p>
+<h1 id="变换矩阵-Transformation"><a href="#变换矩阵-Transformation" class="headerlink" title="变换矩阵 Transformation"></a>变换矩阵 Transformation</h1><p>用于图形的平移、旋转、缩放时使用</p>
+<h1 id="投影矩阵-Projection"><a href="#投影矩阵-Projection" class="headerlink" title="投影矩阵 Projection"></a>投影矩阵 Projection</h1><p>将3D坐标转换为2D屏幕坐标时使用</p>
+<h1 id="渲染上屏-交换缓冲区-SwapBuffer"><a href="#渲染上屏-交换缓冲区-SwapBuffer" class="headerlink" title="渲染上屏/交换缓冲区 SwapBuffer"></a>渲染上屏/交换缓冲区 SwapBuffer</h1><ul>
+<li>渲染缓冲区：可以理解为是系统的资源，例如窗口</li>
+<li>渲染上屏：将图像直接渲染到窗口对应的渲染缓冲区</li>
+</ul>
+<p><strong>问题：如果每个窗口只有一个缓冲区，在绘制过程中刷新了屏幕，窗口可能显示不出完整的图像</strong></p>
+<ul>
+<li>常规OpenGL程序中至少会有两个缓冲区<br>==&gt; 屏幕缓冲区：用于显示在屏幕上<br>==&gt; 离屏缓冲区：没有显示的</li>
+</ul>
+<ul>
+<li>在一个缓冲区渲染完成后，将屏幕缓冲区和离屏缓冲区进行交换，实现图像在屏幕上的显示</li>
+</ul>
+<p><strong>问题：防止交换缓冲区时屏幕上下区域的图像分属于两个不同的帧</strong></p>
+<ul>
+<li>显示的刷新一般是逐行进行的，因此交换一般会等待显示器刷新完成的信号，在显示器两次刷新的间隔中进行交换<br>==&gt; 信号：垂直同步信号<br>==&gt; 技术：垂直同步技术</li>
+</ul>
+<p><strong>问题：使⽤用了了双缓冲区和垂直同步技术之后，由于总是要等待缓冲区交换之后再进行下一帧的渲染，使得帧率 无法完全达到硬件允许的最⾼⽔平</strong></p>
+<blockquote>
+<p>三缓冲区技术</p>
+</blockquote>
+<ul>
+<li>在等待垂直同步时，来回交替渲染两个离屏的缓冲区</li>
+<li>垂直同步发生时，屏幕缓冲区和最近渲染完成的离屏缓冲区交换</li>
+</ul>
 
       
     </div>
@@ -505,7 +567,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+            <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
           
         </div>
       
@@ -518,8 +580,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/06/12/iOS-LLDB-1/" rel="next" title="iOS LLDB 调试">
-                <i class="fa fa-chevron-left"></i> iOS LLDB 调试
+              <a href="/2020/07/06/OpenGL-Configuration/" rel="next" title="Mac 搭建OpenGL环境">
+                <i class="fa fa-chevron-left"></i> Mac 搭建OpenGL环境
               </a>
             
           </div>
@@ -528,8 +590,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/06/16/github-picgo-jsdelivr/" rel="prev" title="Github+PicGo+jsdelivr 搭建图床">
-                Github+PicGo+jsdelivr 搭建图床 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/07/06/OpenGL-01/" rel="prev" title="案例 01、OpenGL入门--绘制三角形">
+                案例 01、OpenGL入门--绘制三角形 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -587,8 +649,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -668,6 +739,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#状态机"><span class="nav-number">1.</span> <span class="nav-text">状态机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上下文-Context"><span class="nav-number">2.</span> <span class="nav-text">上下文 Context</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#渲染-Rendering"><span class="nav-number">3.</span> <span class="nav-text">渲染 Rendering</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顶点数组-VertexArray、顶点缓冲区-VertexBuffer"><span class="nav-number">4.</span> <span class="nav-text">顶点数组 VertexArray、顶点缓冲区 VertexBuffer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#管线"><span class="nav-number">5.</span> <span class="nav-text">管线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顶点着色器"><span class="nav-number">6.</span> <span class="nav-text">顶点着色器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#片元着色器"><span class="nav-number">7.</span> <span class="nav-text">片元着色器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GLSL（OpenGL-Shading-Language）"><span class="nav-number">8.</span> <span class="nav-text">GLSL（OpenGL Shading Language）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#光栅化"><span class="nav-number">9.</span> <span class="nav-text">光栅化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#纹理"><span class="nav-number">10.</span> <span class="nav-text">纹理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#混合-Blending"><span class="nav-number">11.</span> <span class="nav-text">混合 Blending</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变换矩阵-Transformation"><span class="nav-number">12.</span> <span class="nav-text">变换矩阵 Transformation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#投影矩阵-Projection"><span class="nav-number">13.</span> <span class="nav-text">投影矩阵 Projection</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#渲染上屏-交换缓冲区-SwapBuffer"><span class="nav-number">14.</span> <span class="nav-text">渲染上屏&#x2F;交换缓冲区 SwapBuffer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
