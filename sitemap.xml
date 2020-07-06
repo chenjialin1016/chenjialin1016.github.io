@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://chenjialin1016.com/2020/06/17/hexo-github/</loc>
+    <loc>https://chenjialin1016.com/2020/05/06/Hexo-other/</loc>
     
-    <lastmod>2020-07-06T03:23:00.308Z</lastmod>
+    <lastmod>2020-07-06T03:51:24.475Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://chenjialin1016.com/2020/06/16/github-picgo-jsdelivr/</loc>
+    
+    <lastmod>2020-07-06T03:49:43.967Z</lastmod>
     
   </url>
   
@@ -51,13 +58,6 @@
   </url>
   
   <url>
-    <loc>https://chenjialin1016.com/2020/06/16/github-picgo-jsdelivr/</loc>
-    
-    <lastmod>2020-06-17T11:46:39.803Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://chenjialin1016.com/2020/06/15/Fullter-shortcutKey/</loc>
     
     <lastmod>2020-06-15T08:09:30.866Z</lastmod>
@@ -89,13 +89,6 @@
     <loc>https://chenjialin1016.com/about/index.html</loc>
     
     <lastmod>2020-06-12T05:48:20.005Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://chenjialin1016.com/2020/06/12/hello-world/</loc>
-    
-    <lastmod>2020-06-12T03:05:33.314Z</lastmod>
     
   </url>
   
